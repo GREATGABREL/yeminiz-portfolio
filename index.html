@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yeminiz — Web3 Growth</title>
+    
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Syne:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface2: #1a1a1a;
+            --border: #222222;
+            --border-light: #2a2a2a;
+            --text: #f0f0f0;
+            --text-muted: #555;
+            --text-dim: #888;
+            --purple: #9d4edd;
+            --green: #00d97e;
+            --gold: #d4a84b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px;
+            min-height: 100vh;
+            padding-top: 52px; /* space for ticker */
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 80px 20px 120px;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 40px 16px 100px; }
+        }
+
+        /* Ticker */
+        .ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            z-index: 100;
+            height: 42px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-content {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--purple);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.33%); }
+        }
+
+        /* Avatar */
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 9999px;
+            border: 2px solid var(--purple);
+            box-shadow: 0 0 24px rgba(157, 78, 221, 0.35);
+            overflow: hidden;
+            background: #222;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: rgba(0, 217, 126, 0.1);
+            color: var(--green);
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            border: 1px solid rgba(0, 217, 126, 0.2);
+        }
+
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        /* Typography */
+        .eyebrow { 
+            font-family: 'DM Mono', monospace; 
+            font-size: 11px; 
+            letter-spacing: 0.15em; 
+            text-transform: uppercase; 
+            color: var(--purple); 
+        }
+
+        .display-name {
+            font-weight: 800;
+            font-size: clamp(28px, 6vw, 42px);
+            line-height: 1.05;
+        }
+
+        .positioning {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dim);
+            max-width: 480px;
+        }
+
+        /* Stat Card */
+        .stat-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--purple);
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            background: linear-gradient(90deg, var(--purple), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Service Card */
+        .service-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-2px);
+        }
+
+        .accent-line {
+            height: 3px;
+            background: linear-gradient(90deg, var(--purple), var(--green));
+            margin-bottom: 20px;
+            border-radius: 9999px;
+        }
+
+        /* Project Chip */
+        .project-chip {
+            background-color: var(--surface2);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 14px 18px;
+            transition: all 0.2s ease;
+        }
+
+        .project-chip:hover {
+            border-color: var(--purple);
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--purple);
+            border-radius: 16px;
+            padding: 28px;
+            position: relative;
+        }
+
+        .featured-post::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--purple), var(--green), var(--gold));
+        }
+
+        /* Testimonial */
+        .testimonial-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .initial-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Link Button */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+        }
+
+        .link-btn:hover {
+            border-color: var(--purple);
+            background-color: var(--surface2);
+            transform: translateY(-1px);
+        }
+
+        /* CTA Buttons */
+        .primary-cta {
+            background: linear-gradient(90deg, var(--purple), #c77dff);
+            color: white;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .primary-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(157, 78, 221, 0.4);
+        }
+
+        .secondary-cta {
+            background-color: var(--surface);
+            border: 1px solid var(--border-light);
+            color: var(--text);
+            font-weight: 600;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .secondary-cta:hover {
+            border-color: var(--purple);
+            background-color: var(--surface2);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ANNOUNCEMENT TICKER -->
+    <div class="ticker">
+        <div class="ticker-content">
+            <span>Currently open for new projects&nbsp;&nbsp;·&nbsp;&nbsp;WEB3 Growth &amp; Marketing&nbsp;&nbsp;·&nbsp;&nbsp;Ecosystem Builder&nbsp;&nbsp;·&nbsp;&nbsp;DM to Collaborate&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+            <span>Currently open for new projects&nbsp;&nbsp;·&nbsp;&nbsp;WEB3 Growth &amp; Marketing&nbsp;&nbsp;·&nbsp;&nbsp;Ecosystem Builder&nbsp;&nbsp;·&nbsp;&nbsp;DM to Collaborate&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+            <span>Currently open for new projects&nbsp;&nbsp;·&nbsp;&nbsp;WEB3 Growth &amp; Marketing&nbsp;&nbsp;·&nbsp;&nbsp;Ecosystem Builder&nbsp;&nbsp;·&nbsp;&nbsp;DM to Collaborate&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <div id="hero" class="text-center mb-16 fade-up">
+            <div class="flex justify-center mb-6">
+                <div class="avatar">
+                    <img src="https://unavatar.io/twitter/_yeminiz" alt="yeminiz" 
+                         onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-5xl font-bold text-[#9d4edd]\'>Y</div>'">
+                </div>
+            </div>
+
+            <!-- Status Badge -->
+            <div class="status-badge mx-auto mb-4">
+                <i class="bi bi-circle-fill pulse-dot"></i>
+                <span>Open for Projects</span>
+            </div>
+
+            <div class="eyebrow mb-3">WEB3 GROWTH</div>
+            <h1 class="display-name mb-4">yeminiz</h1>
+            <p class="text-[14px] text-[var(--text-dim)] mb-6">I Market and Grow WEB3 ecosystems</p>
+            
+            <p class="positioning mx-auto">
+                I don't just run campaigns — I embed into ecosystems, find the growth levers, and pull them. 
+                From zero-to-community to full-scale go-to-market, I've done it across chains, protocols, and cycles.
+            </p>
+        </div>
+
+        <!-- STATS -->
+        <div id="stats" class="mb-16 fade-up">
+            <div class="section-label text-center mb-6">BY THE NUMBERS</div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="stat-card">
+                    <i class="bi bi-rocket-takeoff text-2xl text-[var(--purple)] mb-3"></i>
+                    <div class="stat-value">50+</div>
+                    <div class="text-[11px] text-[var(--text-muted)] uppercase tracking-widest mt-1">Projects Grown</div>
+                </div>
+                <div class="stat-card">
+                    <i class="bi bi-clock-history text-2xl text-[var(--purple)] mb-3"></i>
+                    <div class="stat-value">5+</div>
+                    <div class="text-[11px] text-[var(--text-muted)] uppercase tracking-widest mt-1">Years in Web3</div>
+                </div>
+                <div class="stat-card">
+                    <i class="bi bi-diagram-3 text-2xl text-[var(--purple)] mb-3"></i>
+                    <div class="stat-value">10+</div>
+                    <div class="text-[11px] text-[var(--text-muted)] uppercase tracking-widest mt-1">Ecosystems</div>
+                </div>
+                <div class="stat-card">
+                    <i class="bi bi-people text-2xl text-[var(--purple)] mb-3"></i>
+                    <div class="stat-value">100K+</div>
+                    <div class="text-[11px] text-[var(--text-muted)] uppercase tracking-widest mt-1">Community Reach</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SERVICES -->
+        <div id="services" class="mb-16 fade-up">
+            <div class="section-label text-center mb-6">WHAT I DO</div>
+            <div class="space-y-4">
+                <div class="service-card">
+                    <div class="accent-line"></div>
+                    <i class="bi bi-graph-up-arrow text-3xl text-[var(--purple)] mb-4"></i>
+                    <h3 class="font-semibold text-lg mb-2">Ecosystem Growth</h3>
+                    <p class="text-[13px] text-[var(--text-dim)] leading-relaxed">
+                        Full-funnel growth strategy for protocols, DAOs, and chains. From narrative to adoption.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="accent-line"></div>
+                    <i class="bi bi-megaphone text-3xl text-[var(--purple)] mb-4"></i>
+                    <h3 class="font-semibold text-lg mb-2">Web3 Marketing</h3>
+                    <p class="text-[13px] text-[var(--text-dim)] leading-relaxed">
+                        Campaign architecture, KOL coordination, content strategy, and community activation.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="accent-line"></div>
+                    <i class="bi bi-people-fill text-3xl text-[var(--purple)] mb-4"></i>
+                    <h3 class="font-semibold text-lg mb-2">Community Building</h3>
+                    <p class="text-[13px] text-[var(--text-dim)] leading-relaxed">
+                        Building loyal, engaged communities that convert holders into advocates.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURED PROJECTS -->
+        <div id="featured_projects" class="mb-16 fade-up">
+            <div class="section-label text-center mb-6">ECOSYSTEMS WORKED WITH</div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="project-chip flex items-center gap-3">
+                    <i class="bi bi-currency-exchange text-[var(--purple)]"></i>
+                    <div>
+                        <div class="font-medium text-sm">Project Alpha</div>
+                        <div class="text-[10px] text-[var(--gold)]">DeFi</div>
+                    </div>
+                </div>
+                <div class="project-chip flex items-center gap-3">
+                    <i class="bi bi-layers text-[var(--purple)]"></i>
+                    <div>
+                        <div class="font-medium text-sm">Project Beta</div>
+                        <div class="text-[10px] text-[var(--gold)]">L2</div>
+                    </div>
+                </div>
+                <div class="project-chip flex items-center gap-3">
+                    <i class="bi bi-hexagon text-[var(--purple)]"></i>
+                    <div>
+                        <div class="font-medium text-sm">Project Gamma</div>
+                        <div class="text-[10px] text-[var(--gold)]">NFT</div>
+                    </div>
+                </div>
+                <div class="project-chip flex items-center gap-3">
+                    <i class="bi bi-shield-check text-[var(--purple)]"></i>
+                    <div>
+                        <div class="font-medium text-sm">Project Delta</div>
+                        <div class="text-[10px] text-[var(--gold)]">DAO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURED POST -->
+        <div id="featured_post" class="mb-16 fade-up">
+            <div class="section-label text-center mb-6">LATEST DROP</div>
+            <div class="featured-post">
+                <i class="bi bi-quote absolute top-6 right-6 text-4xl text-[var(--purple)] opacity-30"></i>
+                <div class="text-[var(--gold)] font-semibold text-xl mb-4">Hack101</div>
+                <div class="text-[14px] text-[var(--text-dim)] leading-relaxed whitespace-pre-line">
+                    Reconnecting with old contacts.<br>
+                    Understanding what they're working on.<br>
+                    Finding ways to collaborate, add value, and make money together.<br><br>
+                    This has worked for me recently.<br>
+                    Try it
+                </div>
+                <div class="text-[11px] text-[var(--text-muted)] mt-6">via @_yeminiz on X</div>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS -->
+        <div id="testimonials" class="mb-16 fade-up">
+            <div class="section-label text-center mb-6">WHAT THEY SAY</div>
+            <div class="space-y-6">
+                <div class="testimonial-card">
+                    <i class="bi bi-quote text-2xl text-[var(--purple)] opacity-40 mb-4"></i>
+                    <p class="italic text-[15px] leading-relaxed">"yeminiz understands Web3 growth at a level most marketers don't. Results speak."</p>
+                    <div class="flex items-center gap-3 mt-6">
+                        <div class="initial-avatar">C</div>
+                        <div>
+                            <div class="text-[var(--purple)]">@cthandle1</div>
+                            <div class="text-[11px] text-[var(--text-muted)]">Founder, Protocol X</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <i class="bi bi-quote text-2xl text-[var(--purple)] opacity-40 mb-4"></i>
+                    <p class="italic text-[15px] leading-relaxed">"Brought structure and strategy to our chaos. Community grew 3x in 60 days."</p>
+                    <div class="flex items-center gap-3 mt-6">
+                        <div class="initial-avatar">M</div>
+                        <div>
+                            <div class="text-[var(--purple)]">@cthandle2</div>
+                            <div class="text-[11px] text-[var(--text-muted)]">CMO, Chain Y</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LINKS -->
+        <div id="links" class="mb-16 fade-up">
+            <div class="section-label text-center mb-6">FIND ME</div>
+            <a href="https://t.me/yeminiz" target="_blank" class="link-btn">
+                <div class="flex items-center gap-3">
+                    <i class="bi bi-telegram text-xl"></i>
+                    <span>Telegram</span>
+                </div>
+                <i class="bi bi-arrow-right text-lg text-[var(--text-muted)]"></i>
+            </a>
+            <a href="https://x.com/_yeminiz" target="_blank" class="link-btn">
+                <div class="flex items-center gap-3">
+                    <i class="bi bi-twitter-x text-xl"></i>
+                    <span>Twitter / X</span>
+                </div>
+                <i class="bi bi-arrow-right text-lg text-[var(--text-muted)]"></i>
+            </a>
+        </div>
+
+        <!-- CONTACT -->
+        <div id="contact" class="fade-up">
+            <div class="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8">
+                <div class="accent-line w-12 mx-auto mb-8"></div>
+                <h2 class="text-2xl font-semibold text-center mb-3">Let's Build Together</h2>
+                <p class="text-center text-[var(--text-dim)] text-[14px] leading-relaxed mb-8">
+                    Got a WEB3 project that needs growth? I'm selectively taking on new projects. Let's see if we're a fit.
+                </p>
+                
+                <a href="https://t.me/yeminiz" target="_blank" class="primary-cta mb-3 block">
+                    <i class="bi bi-telegram"></i>
+                    Start on Telegram
+                </a>
+                <a href="https://x.com/_yeminiz" target="_blank" class="secondary-cta block">
+                    <i class="bi bi-twitter-x"></i>
+                    DM on X
+                </a>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="mt-20 pt-8 border-t border-[var(--border)] text-center">
+            <div class="text-[10px] text-[var(--text-muted)]">© yeminiz · WEB3 Growth &amp; Marketing</div>
+            <div class="flex justify-center gap-6 mt-6 text-[var(--text-muted)]">
+                <a href="https://t.me/yeminiz" target="_blank"><i class="bi bi-telegram hover:text-[var(--purple)] transition-colors"></i></a>
+                <a href="https://x.com/_yeminiz" target="_blank"><i class="bi bi-twitter-x hover:text-[var(--purple)] transition-colors"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Staggered fade-up for sections
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll('.fade-up');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 80}ms`;
+            });
+        });
+    </script>
+</body>
+</html>
